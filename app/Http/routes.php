@@ -11,6 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+get('/', function() {
+    $data = [
+        'name' => 'felixkiss',
+        'email' => 'felixkiss@users.github.com',
+        'password' => 'foo',
+    ];
+    $rules = [
+        'name' => 'required|unique_with:users,email',
+        'email' => 'required',
+    ];
+    $validator = Validator::make($data, $rules);
+
+    if ($validator->fails())
+    {
+        dd($validator->errors());
+    }
+
+    $user = App\User::create($data);
+    dd($user);
 });
